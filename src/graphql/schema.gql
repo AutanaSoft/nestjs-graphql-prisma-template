@@ -1,0 +1,166 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AccessToken {
+  createdAt: DateTime
+  expiresAt: DateTime
+  token: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTimeFilter
+  notIn: [DateTime!]
+}
+
+input EnumUserRolesFilter {
+  equals: [UserRoles!]
+  has: UserRoles
+  hasEvery: [UserRoles!]
+  hasSome: [UserRoles!]
+  isEmpty: Boolean
+}
+
+input EnumUserStatusFilter {
+  equals: UserStatus
+  in: [UserStatus!]
+  not: EnumUserStatusFilter
+  notIn: [UserStatus!]
+}
+
+type Mutation {
+  createUser(data: UserModelCreateInput!): UserModel!
+  signUp(confirmPassword: String!, email: String!, password: String!, userName: String!): AccessToken!
+  updateUser(data: UserModelUpdateInput!, where: UserModelWhereUniqueInput!): UserModel!
+}
+
+type Query {
+  me: UserModel!
+  signIn(email: String!, password: String!): AccessToken!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: StringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: StringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type UserModel {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  roles: [UserRoles!]
+  status: UserStatus!
+  updatedAt: DateTime!
+  userName: String
+}
+
+input UserModelCreateInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  userName: String!
+}
+
+input UserModelUpdateInput {
+  email: String
+  roles: [UserRoles!]
+  status: UserStatus
+  userName: String
+}
+
+input UserModelWhereInput {
+  AND: [UserModelWhereInput!]
+  NOT: [UserModelWhereInput!]
+  OR: [UserModelWhereInput!]
+  createdAt: DateTimeFilter
+  email: StringFilter
+  id: UuidFilter
+  roles: EnumUserRolesFilter
+  status: EnumUserStatusFilter
+  updatedAt: DateTimeFilter
+  userName: StringNullableFilter
+}
+
+input UserModelWhereUniqueInput {
+  AND: [UserModelWhereInput!]
+  NOT: [UserModelWhereInput!]
+  OR: [UserModelWhereInput!]
+  createdAt: DateTimeFilter
+  email: String
+  id: String
+  password: StringFilter
+  roles: EnumUserRolesFilter
+  status: EnumUserStatusFilter
+  updatedAt: DateTimeFilter
+  userName: StringNullableFilter
+}
+
+enum UserRoles {
+  ADMIN
+  CUSTOMER
+  GUEST
+  INTERNAL
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  DELETED
+  FROZEN
+  INACTIVE
+  LOCKED
+  REGISTERED
+}
+
+input UuidFilter {
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: UuidFilter
+  notIn: [String!]
+}

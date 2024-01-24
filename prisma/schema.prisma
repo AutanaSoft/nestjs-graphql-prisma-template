@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator nestgraphql {
+  provider           = "prisma-nestjs-graphql"
+  output             = "../src/core/generated/prisma/graphql"
+  noAtomicOperations = true
+  reExport           = Directories
+}
+
+enum UserStatus {
+  REGISTERED
+  ACTIVE
+  INACTIVE
+  LOCKED
+  FROZEN
+  BANNED
+  DELETED
+}
+
+enum UserRoles {
+  GUEST
+  CUSTOMER
+  INTERNAL
+  ADMIN
+}
+
+model UserModel {
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status    UserStatus  @default(REGISTERED)
+  roles     UserRoles[] @default([CUSTOMER])
+  email     String      @unique @db.VarChar(60)
+  userName  String?     @map("user_name") @db.VarChar(20)
+  password  String      @db.VarChar(60)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("users")
+}
