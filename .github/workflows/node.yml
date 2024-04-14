@@ -22,6 +22,8 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: copie action variables to .env file
         run: echo "${{ vars.APP_NODE_ENV }}" >> .env
+      - name: active pnpm
+        run: corepack enable pnpm && corepack use pnpm
       - name: Install dependencies 📥
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: pnpm install
