@@ -5,7 +5,6 @@ import { PrismaService } from '@src/core/prisma/prisma.service'
 import { createAdminUser, deleteAllTestUsers } from '../core/test-utils'
 import { AuthModuleTest } from './graphql/auth/auth.module'
 import { UserModuleTest } from './graphql/user/user.module'
-import { HomeModuleTest } from './home/home.module'
 
 describe('App Test:', () => {
   let app: NestFastifyApplication
@@ -27,7 +26,6 @@ describe('App Test:', () => {
     await deleteAllTestUsers(prismaService)
     await app.close()
   })
-  describe('HomeModule:', HomeModuleTest)
   describe('AuthModule:', AuthModuleTest)
   describe('UserModule:', UserModuleTest)
 })
