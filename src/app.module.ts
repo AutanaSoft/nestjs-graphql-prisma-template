@@ -11,6 +11,8 @@ import { PrismaModule } from '@src/core/prisma/prisma.module'
 import { join } from 'node:path'
 import { GraphqlModule } from './graphql/graphql.module'
 import { GqlThrottlerGuard } from './graphql/shared/infrastructure/guard/GqlThrottlerGuard'
+import { HomeModule } from '@src/home/home.module'
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
@@ -42,6 +44,7 @@ import { GqlThrottlerGuard } from './graphql/shared/infrastructure/guard/GqlThro
     LoggerModule,
     ErrorHandlerModule,
     PrismaModule,
+    HomeModule,
     GraphqlModule,
   ],
   providers: [
