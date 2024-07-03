@@ -18,7 +18,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: fs.readFileSync(configService.get<string>('JWT_PUBLIC_KEY') || '').toString(),
+      secretOrKey: fs
+        .readFileSync(configService.get<string>('JWT_PUBLIC_KEY') as string)
+        .toString(),
       algorithms: 'RS512',
     })
     this.userRepository = this.prisma.userModel
