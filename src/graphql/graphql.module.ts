@@ -6,9 +6,12 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { ErrorHandlerModule } from '@src/core/error-handler/error-handler.module'
 import { join } from 'path'
 
+import { APP_GUARD } from '@nestjs/core'
 import { AuthModule } from './auth/auth.module'
+import { GqlThrottlerGuard } from './shared/infrastructure/guard/GqlThrottlerGuard'
 import { PubSubService } from './shared/services/pub-sub.service'
 import { UserModule } from './user/user.module'
+
 @Module({
   imports: [
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -24,6 +27,7 @@ import { UserModule } from './user/user.module'
         subscriptions: {
           'graphql-ws': true,
         },
+        context: (request: any, reply: any) => ({ request, reply }),
       }),
       inject: [ConfigService],
     }),
@@ -31,7 +35,13 @@ import { UserModule } from './user/user.module'
     UserModule,
     AuthModule,
   ],
-  providers: [PubSubService],
+  providers: [
+    PubSubService,
+    {
+      provide: APP_GUARD,
+      useClass: GqlThrottlerGuard,
+    },
+  ],
   exports: [],
 })
 export class GraphqlModule {}
